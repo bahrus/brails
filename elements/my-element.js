@@ -21,12 +21,15 @@ var Temp;
             _super.apply(this, arguments);
             this.myProp = '42'; // direct initialization
             this.myField = '123';
+            this.properties = {
+                testProp: String
+            };
         }
         MyElement.prototype.mySpanClickHandler = function (e) {
             debugger;
         };
-        MyElement.$myProp = brails.getName(function (o) { return o.myProp; });
-        MyElement.$mySpanClickHandler = brails.getName(function (o) { return o.mySpanClickHandler; });
+        MyElement.$myProp = rn(function (o) { return o.myProp; });
+        MyElement.$mySpanClickHandler = rn(function (o) { return o.mySpanClickHandler; });
         __decorate([
             property()
         ], MyElement.prototype, "myProp");
@@ -36,6 +39,9 @@ var Temp;
         ], MyElement);
         return MyElement;
     })(polymer.Base);
+    function rn(getter) {
+        return brails.getName(getter);
+    }
     // after the element is defined, we register it in Polymer
     MyElement.register();
 })(Temp || (Temp = {}));

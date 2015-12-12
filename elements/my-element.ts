@@ -3,13 +3,6 @@
 
 module Temp {
 
-
-
-
-
-
-
-
     @component("my-element")
     @template(`
     <div test$="[[${MyElement.$myProp}]]">this is a test[[${MyElement.$myProp}]]</div>
@@ -18,17 +11,26 @@ module Temp {
 `)
     class MyElement extends polymer.Base {
 
-        public static $myProp = brails.getName<MyElement>(o => o.myProp);
+        static $myProp = rn(o => o.myProp);
         @property()
         myProp = '42';  // direct initialization
 
-        public static $mySpanClickHandler = brails.getName<MyElement>(o => o.mySpanClickHandler);
+        static $mySpanClickHandler = rn(o => o.mySpanClickHandler);
         mySpanClickHandler(e){
             debugger;
         }
 
         myField = '123';
 
+        properties = {
+            testProp: String
+        }
+
+
+    }
+
+    function rn(getter: brails.IGetter<MyElement>){
+        return brails.getName<MyElement>(getter);
     }
 
 // after the element is defined, we register it in Polymer

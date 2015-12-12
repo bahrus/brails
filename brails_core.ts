@@ -1,5 +1,5 @@
 module brails{
-    interface IGetter<T> {
+    export interface IGetter<T> {
         (obj: T): any;
     };
 
