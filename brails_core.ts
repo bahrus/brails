@@ -25,15 +25,11 @@ module brails{
         return getMemberName(getter.toString());
     }
 
-    //export function setSubPropValue<T>(getter: IGetter<T>)
     export interface IMetaBindInfo{
-        elementSelector?: string;
+        elementSelector: string;
+        setPath: string;
     }
-    //export function metaBind(ob?: IMetaBindInfo) {
-    //    return (target: polymer.Element, propertyKey: string) => {
-    //        debugger;
-    //    }
-    //}
+
     export function metaBind(bindInfo?: IMetaBindInfo){
         return function metaBind(target: polymer.Element, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
             var originalMethod = descriptor.value; // save a reference to the original method
@@ -41,16 +37,13 @@ module brails{
             // NOTE: Do not use arrow syntax here. Use a function expression in
             // order to use the correct value of `this` in this method (see notes below)
             descriptor.value = function (...args:any[]) {
-                console.log("The method args are: " + JSON.stringify(args)); // pre
                 var result = originalMethod.apply(this, args);               // run and store the result
-                console.log("The return value is: " + result);// post
                 const htmlElement = <HTMLElement> this;
                 const targetEls = htmlElement.querySelectorAll(bindInfo.elementSelector);
                 for(let i = 0, n = targetEls.length; i < n; i++){
                     const targetEl = <PolymerBase> targetEls[i];
-                    targetEl.set('myProp', args[0])
+                    targetEl.set(bindInfo.setPath, args[0])
                 }
-
                 return result;                                               // return the result of the original method
             };
 
@@ -58,4 +51,26 @@ module brails{
         }
     }
 
+    //interface IPartialEval{
+    //    target: any;
+    //    prop: string;
+    //}
+    //function partialEval(s: string, ){
+    //    const tokens = s.split('.');
+    //    for(i )
+    //}
+    //
+    //export interface INotifyInfo{
+    //    path: string;
+    //    val?: any;
+    //}
+    //export function notify(notifyInfo?: INotifyInfo){
+    //    if(notifyInfo){
+    //        if(typeof notifyInfo.val !== 'undefined'){
+    //
+    //        }
+    //    }else{
+    //        throw "Not Implemented:  Parsing expression and sending notification as needed"
+    //    }
+    //}
 }

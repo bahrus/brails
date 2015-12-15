@@ -21,14 +21,6 @@ var Temp;
         function MyChild() {
             _super.apply(this, arguments);
         }
-        MyChild.prototype.attached = function () {
-            //see https://www.polymer-project.org/1.0/docs/devguide/registering-elements.html#initialization-order
-            this.async(function () {
-                this.parentNode.not;
-                this.myProp = this.parentNode.myProp;
-                this.myEmployee = this.parentNode.myEmployee;
-            });
-        };
         __decorate([
             property()
         ], MyChild.prototype, "myProp");
@@ -37,7 +29,7 @@ var Temp;
         ], MyChild.prototype, "myEmployee");
         MyChild = __decorate([
             component("my-child"),
-            template("\n        <div>I am here[[myProp]], and my name is [[myEmployee.Name]]</div>\n                ")
+            template("\n        <div>Child component</div>\n        <div>myProp: [[myProp]]]</div>\n                ")
         ], MyChild);
         return MyChild;
     })(polymer.Base);

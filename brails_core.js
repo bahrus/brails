@@ -17,11 +17,6 @@ var brails;
         return getMemberName(getter.toString());
     }
     brails.getName = getName;
-    //export function metaBind(ob?: IMetaBindInfo) {
-    //    return (target: polymer.Element, propertyKey: string) => {
-    //        debugger;
-    //    }
-    //}
     function metaBind(bindInfo) {
         return function metaBind(target, propertyKey, descriptor) {
             var originalMethod = descriptor.value; // save a reference to the original method
@@ -32,14 +27,12 @@ var brails;
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i - 0] = arguments[_i];
                 }
-                console.log("The method args are: " + JSON.stringify(args)); // pre
                 var result = originalMethod.apply(this, args); // run and store the result
-                console.log("The return value is: " + result); // post
                 var htmlElement = this;
                 var targetEls = htmlElement.querySelectorAll(bindInfo.elementSelector);
                 for (var i = 0, n = targetEls.length; i < n; i++) {
                     var targetEl = targetEls[i];
-                    targetEl.set('myProp', args[0]);
+                    targetEl.set(bindInfo.setPath, args[0]);
                 }
                 return result; // return the result of the original method
             };

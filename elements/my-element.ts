@@ -3,6 +3,9 @@
 
 module Temp {
 
+    const changeEmployeeName = 'changeEmployeeName';
+    const incrementMyProp = 'incrementMyProp';
+
     export class EmployeeInfo{
         constructor(public Name: string, public Address: string ){
 
@@ -12,12 +15,13 @@ module Temp {
     @component("my-element")
     @template   (`
 
-        <div test$="[[${MyElement.$myProp}]]">this is a test[[${MyElement.$myProp}]]</div>
-        <div>Employee Name: {{myEmployee.Name}}
-        </div>
-        <span on-click="${MyElement.$mySpanClickHandler}">iah[[myField]]</span>
+        <div test$="[[${MyElement.$myProp}]]">myProp = [[${MyElement.$myProp}]]</div>
+        <div on-click="${incrementMyProp}">Increment myProp</div>
+        <div on-click="${changeEmployeeName}">Change Employee Name</div>
+        <div>Employee Name: {{myEmployee.Name}}</div>
 
-        <my-child></my-child>
+
+        <my-child ></my-child>
                 `)
     class MyElement extends polymer.Base {
 
@@ -30,29 +34,35 @@ module Temp {
 
 
 
-        static $mySpanClickHandler = rn(o => o.mySpanClickHandler);
-        mySpanClickHandler(e){
+        //static $incrementMyPropClickHandler = rn(o => o.incrementMyPropClickHandler);
+        [incrementMyProp](e){
             this.myProp++;
-            this.myEmployee.Name = "Austin";
-            this.notifyPath('myEmployee.Name', this.myEmployee.Name);
-            console.log(this.myEmployee);
+        }
+
+        //static $changeEmployeeName = rn(o => o.changeEmployeeName);
+        [changeEmployeeName](e){
+            this.set(MyElement.$myEmployee_Name, 'Austin');
         }
 
         static $onMyPropChange = rn(o => o.onMyPropChange);
         @brails.metaBind({
-            elementSelector: 'my-child'
+            elementSelector: 'my-child',
+            setPath: MyElement.$myProp
         })
-        onMyPropChange(newVal, oldVal){
-
-        }
+        onMyPropChange(newVal, oldVal){}
 
         myField = '123';
 
         static $myEmployee = rn(o => o.myEmployee);
+        static $myEmployee_Name = rn(o => o.myEmployee.Name);
+
         @property()
         myEmployee = new EmployeeInfo('Sydney', '102 Wallaby Lane');
 
-
+        @observe('myEmployee.*')
+        onMyEmployeeChange(newVal, oldVal){
+            debugger;
+        }
     }
 
     function rn(getter: brails.IGetter<MyElement>){
