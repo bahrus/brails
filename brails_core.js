@@ -2,14 +2,14 @@
 var brails;
 (function (brails) {
     ;
-    var fnSignature = 'return ';
-    var fnSignatureLn = fnSignature.length;
+    const fnSignature = 'return ';
+    const fnSignatureLn = fnSignature.length;
     function getMemberName(fnString) {
-        var iPosReturn = fnString.indexOf(fnSignature);
+        const iPosReturn = fnString.indexOf(fnSignature);
         fnString = fnString.substr(iPosReturn + fnSignatureLn);
-        var iPosSemi = fnString.indexOf(';');
+        const iPosSemi = fnString.indexOf(';');
         fnString = fnString.substr(0, iPosSemi);
-        var iPosDot = fnString.indexOf('.');
+        const iPosDot = fnString.indexOf('.');
         fnString = fnString.substr(iPosDot + 1);
         return fnString;
     }
@@ -22,16 +22,12 @@ var brails;
             var originalMethod = descriptor.value; // save a reference to the original method
             // NOTE: Do not use arrow syntax here. Use a function expression in
             // order to use the correct value of `this` in this method (see notes below)
-            descriptor.value = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
+            descriptor.value = function (...args) {
                 var result = originalMethod.apply(this, args); // run and store the result
-                var htmlElement = this;
-                var targetEls = htmlElement.querySelectorAll(bindInfo.elementSelector);
-                for (var i = 0, n = targetEls.length; i < n; i++) {
-                    var targetEl = targetEls[i];
+                const htmlElement = this;
+                const targetEls = htmlElement.querySelectorAll(bindInfo.elementSelector);
+                for (let i = 0, n = targetEls.length; i < n; i++) {
+                    const targetEl = targetEls[i];
                     targetEl.set(bindInfo.setPath, args[0]);
                 }
                 return result; // return the result of the original method
