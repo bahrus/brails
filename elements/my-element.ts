@@ -14,73 +14,67 @@ module Temp {
         }
     }
     //region abbreviations
-    const m = MyElement.m; //methods
-    const p = MyElement.p; //properties
+
     function rn(getter: brails.IGetter<MyElement>){
         return brails.getName<MyElement>(getter);
     }
-    //endregion
 
+    const c = {
+        'myProp': rn(o => o.myProp),
+        'myEmployee': rn(o => o.myEmployee),
+        'myEmployee_Name': rn(o => o.myEmployee.Name),
+        'incrementMyProp': rn(o => o.incrementMyProp),
+        'changeEmployeeName': rn(o => o.changeEmployeeName),
+        'onMyPropChange': rn(o => o.onMyPropChange),
+    };
+    //endregion
     @component("my-element")
     @template   (`
 
-        <div test$="[[${p.myProp}]]">myProp = [[${p.myProp}]]</div>
-        <div on-click="${m.incrementMyProp}">Increment myProp</div>
-        <div on-click="${m.changeEmployeeName}">Change Employee Name</div>
-        <div>Employee Name: [[${p.myEmployee_Name}]]</div>
+        <div test$="[[${c.myProp}]]">myProp = [[${c.myProp}]]</div>
+        <div on-click="${c.incrementMyProp}">Increment myProp</div>
+        <div on-click="${c.changeEmployeeName}">Change Employee Name</div>
+        <div>Employee Name: [[${c.myEmployee_Name}]]</div>
 
 
         <my-child ></my-child>
                 `)
     class MyElement extends polymer.Base {
-        //region abbreviations
-        static m = {
-            'incrementMyProp' : 'incrementMyProp',
-            'changeEmployeeName': 'changeEmployeeName',
-            'onMyPropChange': 'onMyPropChange',
-        };
 
-        static p = {
-            'myProp': rn(o => o.myProp),
-            'myEmployee': 'myEmployee',
-            'myEmployee_Name': rn(o => o.myEmployee.Name),
-        }
-        //endregion
 
-        @property({
-            observer: MyElement.onMyPropChange,
-            notify: true
-        })
+        @property()
         myProp = 42;  // direct initialization
 
 
 
 
-        [m.incrementMyProp](e){
-            this.myProp++;
+        incrementMyProp(e){
+            //this.myProp++;
+            this.set(c.myProp, this.myProp + 1);
         }
 
-        [m.changeEmployeeName](e){
-            this.set(MyElement.p.myEmployee_Name, 'Austin');
+        changeEmployeeName(e){
+            this.set(c.myEmployee_Name, 'Austin');
         }
 
 
         @brails.metaBind({
             elementSelector: 'my-child',
-            setPath: p.myProp
+            setPath: c.myProp
         })
-        [m.onMyPropChange](newVal, oldVal){}
+        @observe(c.myProp)
+        onMyPropChange(newVal, oldVal){}
 
         myField = '123';
 
-        //static myEmployee = rn(o => o.myEmployee);
+
 
         @property()
         myEmployee = new EmployeeInfo('Sydney', '102 Wallaby Lane');
 
-        @observe(p.myEmployee +  '.*')
+        @observe(c.myEmployee +  '.*')
         onMyEmployeeChange(newVal, oldVal){
-            debugger;
+            //debugger;
         }
     }
 

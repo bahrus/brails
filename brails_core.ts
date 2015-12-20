@@ -32,7 +32,13 @@ module brails{
 
     export function metaBind(bindInfo?: IMetaBindInfo){
         return function metaBind(target: polymer.Element, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
-            var originalMethod = descriptor.value; // save a reference to the original method
+            if(!descriptor){
+                descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+            }
+
+            const originalMethod = descriptor.value;
+
+
 
             // NOTE: Do not use arrow syntax here. Use a function expression in
             // order to use the correct value of `this` in this method (see notes below)
@@ -41,7 +47,7 @@ module brails{
                 const htmlElement = <HTMLElement> this;
                 const targetEls = htmlElement.querySelectorAll(bindInfo.elementSelector);
                 for(let i = 0, n = targetEls.length; i < n; i++){
-                    const targetEl = <PolymerBase> targetEls[i];
+                    let targetEl = <PolymerBase> targetEls[i];
                     targetEl.set(bindInfo.setPath, args[0])
                 }
                 return result;                                               // return the result of the original method
