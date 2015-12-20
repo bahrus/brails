@@ -25,6 +25,15 @@ module brails{
         return getMemberName(getter.toString());
     }
 
+    //export function getNames<T>(getters: {[key: string] : IGetter<T>}) : {[key: string] : string}{
+    //    const returnObj: {[key: string] : string} = {};
+    //    for(const key in getters){
+    //        const getter = getters[key];
+    //        returnObj[key] = getMemberName(getter.toString());
+    //    }
+    //    return returnObj;
+    //}
+
     export interface IMetaBindInfo{
         elementSelector: string;
         setPath: string;
@@ -35,10 +44,7 @@ module brails{
             if(!descriptor){
                 descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
             }
-
             const originalMethod = descriptor.value;
-
-
 
             // NOTE: Do not use arrow syntax here. Use a function expression in
             // order to use the correct value of `this` in this method (see notes below)
@@ -57,26 +63,8 @@ module brails{
         }
     }
 
-    //interface IPartialEval{
-    //    target: any;
-    //    prop: string;
-    //}
-    //function partialEval(s: string, ){
-    //    const tokens = s.split('.');
-    //    for(i )
-    //}
-    //
-    //export interface INotifyInfo{
-    //    path: string;
-    //    val?: any;
-    //}
-    //export function notify(notifyInfo?: INotifyInfo){
-    //    if(notifyInfo){
-    //        if(typeof notifyInfo.val !== 'undefined'){
-    //
-    //        }
-    //    }else{
-    //        throw "Not Implemented:  Parsing expression and sending notification as needed"
-    //    }
-    //}
+    export interface IAction{
+
+    }
+
 }

@@ -7,6 +7,7 @@ module Temp{
     @template   (`
         <div>Child component</div>
         <div>myProp: [[myProp]]</div>
+        <link href="my-element.html"/>
                 `)
     class MyChild extends polymer.Base {
         @property()

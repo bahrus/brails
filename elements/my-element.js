@@ -11,6 +11,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var Temp;
 (function (Temp) {
     //const changeEmployeeName = 'changeEmployeeName';
@@ -37,6 +40,17 @@ var Temp;
         'changeEmployeeName': rn(function (o) { return o.changeEmployeeName; }),
         'onMyPropChange': rn(function (o) { return o.onMyPropChange; }),
     };
+    var test = 'hello';
+    var MyBaseElement = (function (_super) {
+        __extends(MyBaseElement, _super);
+        function MyBaseElement() {
+            _super.apply(this, arguments);
+        }
+        MyBaseElement.prototype.incrementMyProp = function (e) {
+            this.myProp++;
+        };
+        return MyBaseElement;
+    })(polymer.Base);
     //endregion
     var MyElement = (function (_super) {
         __extends(MyElement, _super);
@@ -46,39 +60,47 @@ var Temp;
             this.myField = '123';
             this.myEmployee = new EmployeeInfo('Sydney', '102 Wallaby Lane');
         }
-        MyElement.prototype.incrementMyProp = function (e) {
-            //this.myProp++;
-            this.set(c.myProp, this.myProp + 1);
-        };
         MyElement.prototype.changeEmployeeName = function (e) {
             this.set(c.myEmployee_Name, 'Austin');
         };
-        MyElement.prototype.onMyPropChange = function (newVal, oldVal) { };
+        MyElement.prototype.
+        //@observe(c.myProp)
+        onMyPropChange = function (newVal, oldVal) { };
         MyElement.prototype.onMyEmployeeChange = function (newVal, oldVal) {
             //debugger;
         };
         __decorate([
-            property()
+            property({
+                observer: c.onMyPropChange
+            }), 
+            __metadata('design:type', Object)
         ], MyElement.prototype, "myProp", void 0);
         __decorate([
             brails.metaBind({
                 elementSelector: 'my-child',
                 setPath: c.myProp
-            }),
-            observe(c.myProp)
+            }), 
+            __metadata('design:type', Function), 
+            __metadata('design:paramtypes', [Object, Object]), 
+            __metadata('design:returntype', void 0)
         ], MyElement.prototype, "onMyPropChange", null);
         __decorate([
-            property()
+            property(), 
+            __metadata('design:type', Object)
         ], MyElement.prototype, "myEmployee", void 0);
         __decorate([
-            observe(c.myEmployee + '.*')
+            observe(c.myEmployee + '.*'), 
+            __metadata('design:type', Function), 
+            __metadata('design:paramtypes', [Object, Object]), 
+            __metadata('design:returntype', void 0)
         ], MyElement.prototype, "onMyEmployeeChange", null);
         MyElement = __decorate([
             component("my-element"),
-            template("\n\n        <div test$=\"[[" + c.myProp + "]]\">myProp = [[" + c.myProp + "]]</div>\n        <div on-click=\"" + c.incrementMyProp + "\">Increment myProp</div>\n        <div on-click=\"" + c.changeEmployeeName + "\">Change Employee Name</div>\n        <div>Employee Name: [[" + c.myEmployee_Name + "]]</div>\n\n\n        <my-child ></my-child>\n                ")
+            template("\n\n        <div test$=\"[[" + c.myProp + "]]\">myProp = [[" + c.myProp + "]]</div>\n        <div on-click=\"" + c.incrementMyProp + "\">Increment myProp</div>\n        <div on-click=\"" + c.changeEmployeeName + "\">Change Employee Name</div>\n        <div>Employee Name: [[" + c.myEmployee_Name + "]]</div>\n\n\n        <my-child></my-child>\n                "), 
+            __metadata('design:paramtypes', [])
         ], MyElement);
         return MyElement;
-    })(polymer.Base);
+    })(MyBaseElement);
     // after the element is defined, we register it in Polymer
     MyElement.register();
 })(Temp || (Temp = {}));

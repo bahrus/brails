@@ -15,7 +15,7 @@ module Temp {
     }
     //region abbreviations
 
-    function rn(getter: brails.IGetter<MyElement>){
+    function rn(getter: brails.IGetter<MyBaseElement>){
         return brails.getName<MyElement>(getter);
     }
 
@@ -27,9 +27,31 @@ module Temp {
         'changeEmployeeName': rn(o => o.changeEmployeeName),
         'onMyPropChange': rn(o => o.onMyPropChange),
     };
+
+    const test = 'hello';
+
+    class MyBaseElement extends polymer.Base {
+
+        @property({
+            observer: c.onMyPropChange
+        })
+        myProp: number;
+        incrementMyProp(e) {
+            this.myProp++;
+        }
+
+        changeEmployeeName(e) {
+            this.set(c.myEmployee_Name, 'Austin');
+        }
+        onMyPropChange(newVal, oldVal) { }
+
+        @property()
+        myEmployeen: EmployeeInfo;
+    }
+
     //endregion
     @component("my-element")
-    @template   (`
+    @template(`
 
         <div test$="[[${c.myProp}]]">myProp = [[${c.myProp}]]</div>
         <div on-click="${c.incrementMyProp}">Increment myProp</div>
@@ -37,45 +59,34 @@ module Temp {
         <div>Employee Name: [[${c.myEmployee_Name}]]</div>
 
 
-        <my-child ></my-child>
+        <my-child></my-child>
                 `)
-    class MyElement extends polymer.Base {
+    class MyElement extends MyBaseElement{
 
 
-        @property()
+        
         myProp = 42;  // direct initialization
 
-
-
-
-        incrementMyProp(e){
-            //this.myProp++;
-            this.set(c.myProp, this.myProp + 1);
-        }
-
-        changeEmployeeName(e){
-            this.set(c.myEmployee_Name, 'Austin');
-        }
 
 
         @brails.metaBind({
             elementSelector: 'my-child',
             setPath: c.myProp
         })
-        @observe(c.myProp)
-        onMyPropChange(newVal, oldVal){}
+        onMyPropChange(newVal, oldVal) { }
 
         myField = '123';
 
 
-
-        @property()
+        
         myEmployee = new EmployeeInfo('Sydney', '102 Wallaby Lane');
 
-        @observe(c.myEmployee +  '.*')
-        onMyEmployeeChange(newVal, oldVal){
+        @observe(c.myEmployee + '.*')
+        onMyEmployeeChange(newVal, oldVal) {
             //debugger;
         }
+
+        
     }
 
 

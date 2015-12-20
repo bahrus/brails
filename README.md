@@ -1,1 +1,5 @@
 # brails
+
+Actions in decorators:
+
+
