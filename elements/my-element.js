@@ -65,13 +65,7 @@ var Temp;
             __metadata('design:type', EmployeeInfo)
         ], MyBaseElement.prototype, "myEmployee", void 0);
         __decorate([
-            observe(c.myEmployee + '.*'),
-            brails.methodCallAction({
-                do: function (pc) {
-                    console.log(pc);
-                },
-                before: true
-            }), 
+            observe(c.myEmployee + '.*'), 
             __metadata('design:type', Function), 
             __metadata('design:paramtypes', [Object, Object]), 
             __metadata('design:returntype', void 0)
@@ -90,6 +84,7 @@ var Temp;
         MyElement.prototype.onMyPropChange = function (newVal, oldVal) {
             _super.prototype.onMyPropChange.call(this, newVal, oldVal);
         };
+        MyElement.prototype.onMyEmployeeChange = function (newVal, oldVal) { };
         __decorate([
             // direct initialization
             brails.metaBind({
@@ -100,6 +95,17 @@ var Temp;
             __metadata('design:paramtypes', [Object, Object]), 
             __metadata('design:returntype', void 0)
         ], MyElement.prototype, "onMyPropChange", null);
+        __decorate([
+            brails.methodCallAction({
+                do: function (pc) {
+                    console.log(pc);
+                },
+                before: true
+            }), 
+            __metadata('design:type', Function), 
+            __metadata('design:paramtypes', [Object, Object]), 
+            __metadata('design:returntype', void 0)
+        ], MyElement.prototype, "onMyEmployeeChange", null);
         MyElement = __decorate([
             component("my-element"),
             template("\n\n        <div test$=\"[[" + c.myProp + "]]\">myProp = [[" + c.myProp + "]]</div>\n        <div on-click=\"" + c.incrementMyProp + "\">Increment myProp</div>\n        <div on-click=\"" + c.changeEmployeeName + "\">Change Employee Name</div>\n        <div>Employee Name: [[" + c.myEmployee_Name + "]]</div>\n\n\n        <my-child></my-child>\n                "), 

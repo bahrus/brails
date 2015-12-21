@@ -49,12 +49,6 @@ module Temp {
         myEmployee: EmployeeInfo;
 
         @observe(c.myEmployee + '.*')
-        @brails.methodCallAction({
-            do: pc => {
-                console.log(pc);
-            },
-            before: true
-        })
         onMyEmployeeChange(newVal, oldVal) {}
     }
 
@@ -93,8 +87,13 @@ module Temp {
         myEmployee = new EmployeeInfo('Sydney', '102 Wallaby Lane');
 
         
-
-        
+        @brails.methodCallAction({
+            do: pc => {
+                console.log(pc);
+            },
+            before: true
+        })
+        onMyEmployeeChange(newVal, oldVal) { }
     }
 
 
