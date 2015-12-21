@@ -3,3 +3,6 @@
 /temp
 /elements/*.map
 /.vs/brails/v14/*.suo
+/bin
+/obj
+/*.user
