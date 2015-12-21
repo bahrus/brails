@@ -2,4 +2,4 @@
 
 Actions in decorators:
 
-
+hash-meta

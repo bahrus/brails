@@ -63,8 +63,56 @@ module brails{
         }
     }
 
-    export interface IAction{
+    export interface IPolymerActionContext {
+        element: polymer.Element;
+        action: IPolymerAction;
+        methodName: string;
+        methodDescriptor: TypedPropertyDescriptor<any>;
+        isBeforeMethod?: boolean;
+        args?: any[];
+    }
 
+    export interface IPolymerAction{
+        do?: (context: IPolymerActionContext) => void;
+        before?: boolean;
+        after?: boolean;
+        skipMethodCall?: boolean;
+        
+    }
+
+    export function methodCallAction(action: IPolymerAction) {
+        return function methodCallAction(target: polymer.Element, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
+            if (!descriptor) {
+                descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+            }
+            const originalMethod = descriptor.value;
+
+            const polymerContext: IPolymerActionContext = {
+                element: target,
+                action: action,
+                methodName: propertyKey,
+                methodDescriptor: descriptor
+            };
+            // NOTE: Do not use arrow syntax here. Use a function expression in
+            // order to use the correct value of `this` in this method (see notes below)
+            descriptor.value = function (...args: any[]) {
+                polymerContext.args = args;
+                if (action.before) {
+                    polymerContext.isBeforeMethod = true;
+                    action.do(polymerContext);
+                }
+                if (!action.skipMethodCall) {
+                    var result = originalMethod.apply(this, args);  // run and store the result
+                }
+                if (action.after) {
+                    polymerContext.isBeforeMethod = false;
+                    action.do(polymerContext);
+                }
+                return result;                                               // return the result of the original method
+            };
+
+            return descriptor;
+        }
     }
 
 }

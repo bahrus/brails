@@ -46,7 +46,16 @@ module Temp {
         onMyPropChange(newVal, oldVal) { }
 
         @property()
-        myEmployeen: EmployeeInfo;
+        myEmployee: EmployeeInfo;
+
+        @observe(c.myEmployee + '.*')
+        @brails.methodCallAction({
+            do: pc => {
+                console.log(pc);
+            },
+            before: true
+        })
+        onMyEmployeeChange(newVal, oldVal) {}
     }
 
     //endregion
@@ -73,7 +82,9 @@ module Temp {
             elementSelector: 'my-child',
             setPath: c.myProp
         })
-        onMyPropChange(newVal, oldVal) { }
+        onMyPropChange(newVal, oldVal) {
+            super.onMyPropChange(newVal, oldVal);
+        }
 
         myField = '123';
 
@@ -81,10 +92,7 @@ module Temp {
         
         myEmployee = new EmployeeInfo('Sydney', '102 Wallaby Lane');
 
-        @observe(c.myEmployee + '.*')
-        onMyEmployeeChange(newVal, oldVal) {
-            //debugger;
-        }
+        
 
         
     }
