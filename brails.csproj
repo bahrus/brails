@@ -24,6 +24,9 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="includeTests\HTML1.html" />
+    <Content Include="includeTests\HTML2.html" />
+    <Content Include="includeTests\includeTests.html" />
     <Content Include="index.html" />
     <Content Include="web.config" />
   </ItemGroup>
@@ -38,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="brails_core.ts" />
-    <TypeScriptCompile Include="elements\cs-include.ts" />
+    <TypeScriptCompile Include="elements\br-include.ts" />
     <TypeScriptCompile Include="elements\my-child.ts" />
     <TypeScriptCompile Include="elements\my-element.ts" />
   </ItemGroup>
