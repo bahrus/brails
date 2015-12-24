@@ -69,9 +69,11 @@ module Temp {
         <my-child></my-child>
                 `)
     @behavior(MyBaseElement)
-    class MyElement extends polymer.Base {
+    class MyElement extends polymer.Base implements MyBaseElement {
 
+        incrementMyProp(e) { }
 
+        changeEmployeeName(e) { }
         
         myProp = 42;  // direct initialization
 

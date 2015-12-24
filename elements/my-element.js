@@ -86,6 +86,8 @@ var Temp;
             this.myField = '123';
             this.myEmployee = new EmployeeInfo('Sydney', '102 Wallaby Lane');
         }
+        MyElement.prototype.incrementMyProp = function (e) { };
+        MyElement.prototype.changeEmployeeName = function (e) { };
         MyElement.prototype.onMyPropChange = function (newVal, oldVal) { };
         MyElement.prototype.onMyEmployeeChange = function (newVal, oldVal) { };
         __decorate([
