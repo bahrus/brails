@@ -1,5 +1,5 @@
 # brails
 
-Actions in decorators:
+script tag merge properties
 
 hash-meta

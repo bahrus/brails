@@ -29,6 +29,7 @@ var Temp;
     })();
     Temp.EmployeeInfo = EmployeeInfo;
     //region abbreviations
+    //#region abbreviations
     function rn(getter) {
         return brails.getName(getter);
     }
@@ -72,6 +73,7 @@ var Temp;
         ], MyBaseElement.prototype, "onMyEmployeeChange", null);
         return MyBaseElement;
     })(polymer.Base);
+    //#endregion
     //endregion
     var MyElement = (function (_super) {
         __extends(MyElement, _super);

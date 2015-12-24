@@ -14,7 +14,7 @@ module Temp {
         }
     }
     //region abbreviations
-
+    //#region abbreviations
     function rn(getter: brails.IGetter<MyBaseElement>){
         return brails.getName<MyElement>(getter);
     }
@@ -51,7 +51,7 @@ module Temp {
         @observe(c.myEmployee + '.*')
         onMyEmployeeChange(newVal, oldVal) {}
     }
-
+    //#endregion
     //endregion
     @component("my-element")
     @template(`

@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="brails_core.ts" />
+    <TypeScriptCompile Include="elements\cs-include.ts" />
     <TypeScriptCompile Include="elements\my-child.ts" />
     <TypeScriptCompile Include="elements\my-element.ts" />
   </ItemGroup>
