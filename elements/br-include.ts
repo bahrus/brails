@@ -29,8 +29,17 @@ module brails.elements {
                         while (this.childElementCount > 0) {
                             Polymer.dom(this).removeChild(this.firstChild);
                         }
-
-                        Polymer.dom(this).appendChild(link.import.body.firstChild);
+                        const children = [];
+                        let child = link.import.body.firstChild;
+                        while (child) {
+                            children.push(child);
+                            //Polymer.dom(this).appendChild(child);
+                            child = child.nextElementSibling;
+                        }
+                        for (let i = 0, n = children.length; i < n; i++) {
+                            child = children[i];
+                            Polymer.dom(this).appendChild(child);
+                        }
                     }, 1);
                 },
                 () => { //failure

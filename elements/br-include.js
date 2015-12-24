@@ -42,7 +42,17 @@ var brails;
                         while (_this.childElementCount > 0) {
                             Polymer.dom(_this).removeChild(_this.firstChild);
                         }
-                        Polymer.dom(_this).appendChild(link.import.body.firstChild);
+                        var children = [];
+                        var child = link.import.body.firstChild;
+                        while (child) {
+                            children.push(child);
+                            //Polymer.dom(this).appendChild(child);
+                            child = child.nextElementSibling;
+                        }
+                        for (var i = 0, n = children.length; i < n; i++) {
+                            child = children[i];
+                            Polymer.dom(_this).appendChild(child);
+                        }
                     }, 1);
                 }, function () {
                     console.log("error loading " + _this.href);
