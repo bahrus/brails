@@ -16,7 +16,7 @@ module Temp {
     //region abbreviations
     //#region abbreviations
     function rn(getter: brails.IGetter<MyBaseElement>){
-        return brails.getName<MyElement>(getter);
+        return brails.getName<MyBaseElement>(getter);
     }
 
     const c = {
@@ -30,7 +30,7 @@ module Temp {
 
     const test = 'hello';
 
-    class MyBaseElement extends polymer.Base {
+    class MyBaseElement {
 
         @property({
             observer: c.onMyPropChange
@@ -41,7 +41,11 @@ module Temp {
         }
 
         changeEmployeeName(e) {
-            this.set(c.myEmployee_Name, 'Austin');
+            if (this['set']) {
+                this['set'](c.myEmployee_Name, 'Austin');
+            } else {
+                this.myEmployee.Name = 'Austin';
+            }
         }
         onMyPropChange(newVal, oldVal) { }
 
@@ -64,21 +68,21 @@ module Temp {
 
         <my-child></my-child>
                 `)
-    class MyElement extends MyBaseElement{
+    @behavior(MyBaseElement)
+    class MyElement extends polymer.Base {
 
 
         
         myProp = 42;  // direct initialization
 
-
+        
+        
 
         @brails.metaBind({
             elementSelector: 'my-child',
             setPath: c.myProp
         })
-        onMyPropChange(newVal, oldVal) {
-            super.onMyPropChange(newVal, oldVal);
-        }
+        onMyPropChange(newVal, oldVal) {}
 
         myField = '123';
 

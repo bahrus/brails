@@ -42,16 +42,19 @@ var Temp;
         'onMyPropChange': rn(function (o) { return o.onMyPropChange; }),
     };
     var test = 'hello';
-    var MyBaseElement = (function (_super) {
-        __extends(MyBaseElement, _super);
+    var MyBaseElement = (function () {
         function MyBaseElement() {
-            _super.apply(this, arguments);
         }
         MyBaseElement.prototype.incrementMyProp = function (e) {
             this.myProp++;
         };
         MyBaseElement.prototype.changeEmployeeName = function (e) {
-            this.set(c.myEmployee_Name, 'Austin');
+            if (this['set']) {
+                this['set'](c.myEmployee_Name, 'Austin');
+            }
+            else {
+                this.myEmployee.Name = 'Austin';
+            }
         };
         MyBaseElement.prototype.onMyPropChange = function (newVal, oldVal) { };
         MyBaseElement.prototype.onMyEmployeeChange = function (newVal, oldVal) { };
@@ -72,7 +75,7 @@ var Temp;
             __metadata('design:returntype', void 0)
         ], MyBaseElement.prototype, "onMyEmployeeChange", null);
         return MyBaseElement;
-    })(polymer.Base);
+    })();
     //#endregion
     //endregion
     var MyElement = (function (_super) {
@@ -83,9 +86,7 @@ var Temp;
             this.myField = '123';
             this.myEmployee = new EmployeeInfo('Sydney', '102 Wallaby Lane');
         }
-        MyElement.prototype.onMyPropChange = function (newVal, oldVal) {
-            _super.prototype.onMyPropChange.call(this, newVal, oldVal);
-        };
+        MyElement.prototype.onMyPropChange = function (newVal, oldVal) { };
         MyElement.prototype.onMyEmployeeChange = function (newVal, oldVal) { };
         __decorate([
             // direct initialization
@@ -110,11 +111,12 @@ var Temp;
         ], MyElement.prototype, "onMyEmployeeChange", null);
         MyElement = __decorate([
             component("my-element"),
-            template("\n\n        <div test$=\"[[" + c.myProp + "]]\">myProp = [[" + c.myProp + "]]</div>\n        <div on-click=\"" + c.incrementMyProp + "\">Increment myProp</div>\n        <div on-click=\"" + c.changeEmployeeName + "\">Change Employee Name</div>\n        <div>Employee Name: [[" + c.myEmployee_Name + "]]</div>\n\n\n        <my-child></my-child>\n                "), 
+            template("\n\n        <div test$=\"[[" + c.myProp + "]]\">myProp = [[" + c.myProp + "]]</div>\n        <div on-click=\"" + c.incrementMyProp + "\">Increment myProp</div>\n        <div on-click=\"" + c.changeEmployeeName + "\">Change Employee Name</div>\n        <div>Employee Name: [[" + c.myEmployee_Name + "]]</div>\n\n\n        <my-child></my-child>\n                "),
+            behavior(MyBaseElement), 
             __metadata('design:paramtypes', [])
         ], MyElement);
         return MyElement;
-    })(MyBaseElement);
+    })(polymer.Base);
     // after the element is defined, we register it in Polymer
     MyElement.register();
 })(Temp || (Temp = {}));
